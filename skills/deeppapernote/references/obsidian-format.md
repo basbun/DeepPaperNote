@@ -84,6 +84,13 @@ Rules:
 - The `tags` field must always be present with at least one `papers/<domain>` tag.
 - `aliases` should be the paper's short name or acronym (e.g. "GPT-4", "LoRA"), not a paraphrase.
 
+## Base Compatibility
+
+When the target vault contains an Obsidian Base for papers:
+- Read that Base's source, formulas, filters, property names, and existing value conventions before saving. Match the frontmatter keys it actually reads while retaining the standard paper metadata above.
+- Fill supported properties such as `pdf` and `role` from verified source files and the vault's established schema. Use a valid vault-relative wikilink for the PDF and an existing role value whose meaning fits the paper.
+- Verify the saved row and rendered columns in the Base. Check an unfiltered view or inspect the active view's filters before concluding that a saved note is missing. Preserve the Base's intentional taxonomy and filters.
+
 ## Figure Placeholder Style
 
 Use this callout format only for placeholders that remain unresolved in the final note:
