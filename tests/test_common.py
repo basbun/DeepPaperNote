@@ -892,6 +892,7 @@ def test_env_config_value_falls_back_to_shell_file(tmp_path: Path, monkeypatch) 
     )
     monkeypatch.delenv("DEEPPAPERNOTE_SEMANTIC_SCHOLAR_API_KEY", raising=False)
     monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY", raising=False)
+    monkeypatch.delenv("DEEPPAPERNOTE_DISABLE_SHELL_CONFIG", raising=False)  # set by conftest
     monkeypatch.setattr("common.SHELL_CONFIG_FILES", [shell_file])
 
     assert env_config_value("DEEPPAPERNOTE_SEMANTIC_SCHOLAR_API_KEY") == "file_based_key"
