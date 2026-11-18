@@ -3068,7 +3068,18 @@ def resolve_obsidian_note_path(
     folder_name = target_name_path.stem or note_slug
     folder_aliases = {folder_name, note_slug, slugify_filename(folder_name)}
     normalized_folder_aliases = {alias.lower() for alias in folder_aliases if alias}
-    if relative_dir.name.lower() in normalized_folder_aliases:
+    relative_dir_name = relative_dir.name.lower()
+    title_slug_lower = note_slug.lower()
+    # A manually curated paper folder may use a shortened title prefix while
+    # the note filename retains the full title. Do not create a second folder
+    # for the full slug in that case: duplicated title slugs can push
+    # OneDrive-hosted vault paths over its sync limit.
+    shortened_title_folder = bool(
+        relative_dir_name
+        and relative_dir_name != title_slug_lower
+        and title_slug_lower.startswith(f"{relative_dir_name}_")
+    )
+    if relative_dir_name in normalized_folder_aliases or shortened_title_folder:
         target_path = root_path / relative_dir / target_name_path
     else:
         target_path = root_path / relative_dir / folder_name / target_name_path

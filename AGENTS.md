@@ -38,6 +38,9 @@ Future changes should preserve these product invariants:
 - lint plus final readability review remain required before completion
 - Obsidian-first save semantics remain intact
 - the paper-local `images/` directory remains part of the save protocol
+- OneDrive-safe path naming remains required: keep the full paper title in the
+  note metadata and H1, but use a short stable folder/filename slug and never
+  duplicate a long title slug in nested paper folders
 - scripts remain deterministic support tools, while paper understanding and final note writing remain model-led
 
 ## Repository Structure

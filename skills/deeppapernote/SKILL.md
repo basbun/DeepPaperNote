@@ -73,6 +73,7 @@ Follow this order:
 13. perform `final_quality_review` after lint passes
 14. perform `final_readability_review` after the quality review passes
 15. write into Obsidian
+16. complete the mandatory post-save review and repair pass below before reporting the note or batch complete
 
 This is the required workflow for a normal single-paper note request, not a loose suggestion.
 Unless this skill explicitly marks a stage as optional, required stages must not be silently skipped, reordered into a shortcut, or treated as complete just because a partial artifact already exists.
@@ -96,6 +97,18 @@ Completion-language rule:
 - if final readability review is still pending, explicitly say the draft passed script lint but has not finished final language review
 - if the workflow stopped early, name the current stage and the still-missing required stages instead of using completion language
 - lint is a floor, not the writing objective
+
+## Post-save review and repair
+
+Run this pass in the same task for every paper, including each paper in a parallel batch. Read the actual saved note and its source PDF. A successful write, a passing lint artifact, or a worker's report alone does not complete this stage.
+
+1. Compare the saved Abstract directly with the PDF. If the abstract is already in the configured language, preserve its wording; normalize only extraction artifacts such as line-wrap hyphenation. When translation is required, translate faithfully. If the source uses another label, such as Executive Summary, identify that label. If there is no source abstract or equivalent, do not invent one.
+2. Verify title, byline, publication version and year, DOI or other identifier, and source PDF link against the source and the vault's conventions. Distinguish online-first and issue dates where they differ. Keep stable URLs in link fields, never in the DOI field. Check for mismatches between the note text, frontmatter, and displayed properties.
+3. Run final-note lint on the saved file against the same plan. Review every warning and spot-check the key claims, figures, and links against the source and saved assets. Resolve all actionable findings. Document warnings that accurately reflect the source, such as a qualitative study that reports no effect size. Never add unsupported evidence to silence a warning.
+4. Verify the rendered Base row when a vault Base covers the note: check that the intended row appears once and that applicable fields display the expected values. Diagnose view filters separately from note defects. If the rendered view is unavailable, record which checks remain unverified.
+5. Fix source-supported defects as part of the current run, save the corrections, and repeat the saved-file lint and affected source, link, and Base checks. Continue until there are no actionable findings or a concrete blocker prevents further progress.
+
+For parallel batches, the coordinating agent owns this completion gate for every saved note. Record a per-paper outcome with corrections, checks run, and any remaining warning or blocker. Mark a paper complete only after its required checks pass, and report any blocked papers separately in the batch result.
 
 ## Core Execution Contract
 
@@ -234,3 +247,15 @@ Current status:
 - If the paper identity is ambiguous, confirm before writing.
 - If the PDF is unavailable after all supported acquisition paths have been tried, stop and report what input is needed; do not produce a degraded, provisional, or abstract-only note as the finished output. Supported acquisition paths include local PDF, Zotero attachment, metadata `pdf_url`, direct PDF URL, arXiv/open-access sources, publisher PDF if accessible, DOI enrichment, and any other current fetch path implemented by the workflow.
 - Placeholder-first figure planning is required; image extraction is optional and must never reduce textual coverage.
+
+## OneDrive-safe vault paths
+
+When the Obsidian vault is stored under OneDrive, path length is a hard
+operational constraint. Preserve the complete paper title in the note's
+frontmatter and `#` heading, but use a short, stable folder and filename slug
+(for example, an author-year or compact topic slug). Do not repeat a long
+title slug as both a paper folder and a nested note folder. If a curated paper
+folder is a shortened prefix of the full title slug, save the note directly in
+that folder rather than creating another full-slug directory. Before reporting
+success, verify that the note and paper-local image paths are comfortably below
+the OneDrive sync limit.

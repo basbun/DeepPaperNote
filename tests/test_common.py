@@ -580,6 +580,28 @@ def test_resolve_obsidian_note_path_avoids_double_folder_when_subdir_is_title_sl
     )
 
 
+def test_resolve_obsidian_note_path_avoids_double_folder_for_shortened_title_prefix(tmp_path: Path) -> None:
+    vault = tmp_path / "vault"
+    vault.mkdir()
+    config = {
+        "obsidian_vault": str(vault),
+        "papers_dir": "Research/Papers",
+        "workspace_output_dir": "DeepPaperNote_output",
+    }
+    path = resolve_obsidian_note_path(
+        config,
+        title="Construct Measurement and Validation Procedures in MIS and Behavioral Research: Integrating New and Existing Techniques",
+        subdir="organizational_culture/construct_measurement_and_validation_procedures_in_mis_and_behavioral_research",
+    )
+    assert path == (
+        vault
+        / "Research/Papers"
+        / "organizational_culture"
+        / "construct_measurement_and_validation_procedures_in_mis_and_behavioral_research"
+        / "Construct_Measurement_and_Validation_Procedures_in_MIS_and_Behavioral_Research_Integrating_New_and_Existing_Techniques.md"
+    )
+
+
 def test_resolve_obsidian_note_path_accepts_windows_style_papers_relative_subdir(
     tmp_path: Path,
 ) -> None:
